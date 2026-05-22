@@ -1,15 +1,19 @@
 package com.orderms.authservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AuthServiceApplication {
 
+	private static final Logger logger = LoggerFactory.getLogger(AuthServiceApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthServiceApplication.class, args);
 
-		System.out.println("Auth Service Application Started");
+		logger.info("Auth Service Application Started");
 	}
 
 }

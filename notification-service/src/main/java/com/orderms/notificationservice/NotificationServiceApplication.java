@@ -1,15 +1,18 @@
 package com.orderms.notificationservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class NotificationServiceApplication {
 
+	private static final Logger logger = LoggerFactory.getLogger(NotificationServiceApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(NotificationServiceApplication.class, args);
 
-		System.out.println("Notification Service Application started");
+		logger.info("Notification Service Application started");
 	}
-
 }
