@@ -4,6 +4,7 @@ import com.orderms.orderservice.dto.CreateOrderRequest;
 import com.orderms.orderservice.dto.OrderResponse;
 import com.orderms.orderservice.entity.Order;
 import com.orderms.orderservice.entity.OrderStatus;
+import com.orderms.orderservice.event.OrderCreatedEvent;
 import com.orderms.orderservice.kafka.OrderProducer;
 import com.orderms.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,17 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        String message = "Order created with ID: " + savedOrder.getId()
-                + ", Product: " + savedOrder.getProductName()
-                + ", Customer: " + savedOrder.getCustomerEmail();
+        OrderCreatedEvent event = OrderCreatedEvent.builder()
+                .orderId(savedOrder.getId())
+                .productName(savedOrder.getProductName())
+                .quantity(savedOrder.getQuantity())
+                .price(savedOrder.getPrice())
+                .customerEmail(savedOrder.getCustomerEmail())
+                .status(savedOrder.getStatus().name())
+                .createdAt(savedOrder.getCreatedAt())
+                .build();
 
-        orderProducer.sendOrderCreatedEvent(message);
+        orderProducer.sendOrderCreatedEvent(event);
 
         return mapToResponse(savedOrder);
     }

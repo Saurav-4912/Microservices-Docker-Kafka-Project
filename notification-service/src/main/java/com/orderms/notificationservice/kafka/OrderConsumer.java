@@ -1,6 +1,7 @@
 package com.orderms.notificationservice.kafka;
 
 import com.orderms.notificationservice.NotificationServiceApplication;
+import com.orderms.notificationservice.event.OrderCreatedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,12 +14,11 @@ public class OrderConsumer {
 
 
     @KafkaListener(topics = "order-created-topic", groupId = "notification-group")
-    public void consume(String message) {
+    public void consume(OrderCreatedEvent event) {
 
-        logger.info("==================================");
-        logger.info("Order Event Received");
-        logger.info(message);
-        logger.info("Notification sent to customer");
-        logger.info("==================================");
+        logger.info("Order event received for orderId={}, product={}, customer={}",
+                event.getOrderId(),
+                event.getProductName(),
+                event.getCustomerEmail());
     }
 }
